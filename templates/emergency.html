@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Emergency Blood Request</h2>
+    <form method="post" class="form-grid">
+        <label>Patient Name</label>
+        <input type="text" name="patient_name" required>
+
+        <label>Blood Group Needed</label>
+        <select name="blood_group" required>
+            <option value="">Select group</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>O+</option><option>O-</option>
+        </select>
+
+        <label>Units Needed</label>
+        <input type="text" name="units_needed" placeholder="Example: 2 units" required>
+
+        <label>Hospital</label>
+        <input type="text" name="hospital" required>
+
+        <label>Contact Number</label>
+        <input type="text" name="contact" required>
+
+        <label>Message (Optional)</label>
+        <textarea name="message" rows="3" placeholder="Extra details..."></textarea>
+
+        <button type="submit">Submit Emergency Request</button>
+    </form>
+</section>
+
+<section class="card">
+    <h3>Recent Requests</h3>
+    {% if requests %}
+        <table>
+            <tr>
+                <th>Patient</th>
+                <th>Group</th>
+                <th>Units</th>
+                <th>Hospital</th>
+                <th>Contact</th>
+                <th>Time</th>
+            </tr>
+            {% for req in requests %}
+                <tr>
+                    <td>{{ req["patient_name"] }}</td>
+                    <td>{{ req["blood_group"] }}</td>
+                    <td>{{ req["units_needed"] }}</td>
+                    <td>{{ req["hospital"] }}</td>
+                    <td>{{ req["contact"] }}</td>
+                    <td>{{ req["created_at"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No emergency requests yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

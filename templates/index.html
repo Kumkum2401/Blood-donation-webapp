@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Welcome</h2>
+    <p>This app helps connect blood donors and people in emergency need.</p>
+</section>
+
+<section class="stats">
+    <div class="card">
+        <h3>Total Donors</h3>
+        <p class="big">{{ donors_count }}</p>
+    </div>
+    <div class="card">
+        <h3>Emergency Requests</h3>
+        <p class="big">{{ requests_count }}</p>
+    </div>
+</section>
+{% endblock %}

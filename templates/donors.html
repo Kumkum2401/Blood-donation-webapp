@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>All Registered Donors</h2>
+    {% if donors %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Blood Group</th>
+                <th>Contact</th>
+                <th>City</th>
+            </tr>
+            {% for donor in donors %}
+                <tr>
+                    <td>{{ donor["name"] }}</td>
+                    <td>{{ donor["age"] }}</td>
+                    <td>{{ donor["blood_group"] }}</td>
+                    <td>{{ donor["contact"] }}</td>
+                    <td>{{ donor["city"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No donors registered yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>Search Donors by Blood Group</h2>
+    <form method="get" class="inline-form">
+        <select name="blood_group" required>
+            <option value="">Select group</option>
+            {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
+                <option value="{{ group }}" {% if selected_group == group %}selected{% endif %}>{{ group }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Search</button>
+    </form>
+</section>
+
+{% if selected_group %}
+<section class="card">
+    <h3>Results for {{ selected_group }}</h3>
+    {% if donors %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Contact</th>
+                <th>City</th>
+            </tr>
+            {% for donor in donors %}
+                <tr>
+                    <td>{{ donor["name"] }}</td>
+                    <td>{{ donor["age"] }}</td>
+                    <td>{{ donor["contact"] }}</td>
+                    <td>{{ donor["city"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No donors found for this blood group.</p>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}
