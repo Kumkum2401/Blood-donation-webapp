@@ -1,42 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="card">
-    <h2>Search Donors by Blood Group</h2>
-    <form method="get" class="inline-form">
+
+<!-- SEARCH BOX -->
+<section class="card search-card">
+    <h2>🔍 Find Blood Donors</h2>
+    <p class="subtitle">Search donors by blood group instantly</p>
+
+    <form method="get" class="search-form">
         <select name="blood_group" required>
-            <option value="">Select group</option>
+            <option value="">Select Blood Group</option>
             {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
-                <option value="{{ group }}" {% if selected_group == group %}selected{% endif %}>{{ group }}</option>
+                <option value="{{ group }}" {% if selected_group == group %}selected{% endif %}>
+                    {{ group }}
+                </option>
             {% endfor %}
         </select>
+
         <button type="submit">Search</button>
     </form>
 </section>
 
+
+<!-- RESULTS -->
 {% if selected_group %}
-<section class="card">
-    <h3>Results for {{ selected_group }}</h3>
+<section class="card results-card">
+
+    <h3>🩸 Donors for {{ selected_group }}</h3>
+
     {% if donors %}
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Contact</th>
-                <th>City</th>
-            </tr>
+        <div class="donor-grid">
             {% for donor in donors %}
-                <tr>
-                    <td>{{ donor["name"] }}</td>
-                    <td>{{ donor["age"] }}</td>
-                    <td>{{ donor["contact"] }}</td>
-                    <td>{{ donor["city"] }}</td>
-                </tr>
+                <div class="donor-card">
+                    <h4>{{ donor["name"] }}</h4>
+
+                    <p><strong>Age:</strong> {{ donor["age"] }}</p>
+                    <p><strong>City:</strong> {{ donor["city"] }}</p>
+                    <p><strong>Contact:</strong> {{ donor["contact"] }}</p>
+
+                    <a href="tel:{{ donor['contact'] }}" class="call-btn">📞 Call</a>
+                </div>
             {% endfor %}
-        </table>
+        </div>
     {% else %}
-        <p>No donors found for this blood group.</p>
+        <p class="empty">No donors found 😕</p>
     {% endif %}
+
 </section>
 {% endif %}
+
 {% endblock %}

@@ -1,62 +1,87 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="card">
-    <h2>Emergency Blood Request</h2>
-    <form method="post" class="form-grid">
-        <label>Patient Name</label>
-        <input type="text" name="patient_name" required>
 
-        <label>Blood Group Needed</label>
-        <select name="blood_group" required>
-            <option value="">Select group</option>
-            <option>A+</option><option>A-</option>
-            <option>B+</option><option>B-</option>
-            <option>AB+</option><option>AB-</option>
-            <option>O+</option><option>O-</option>
-        </select>
+<section class="card form-card">
+    <h2>🚨 Emergency Blood Request</h2>
 
-        <label>Units Needed</label>
-        <input type="text" name="units_needed" placeholder="Example: 2 units" required>
+    <form method="POST" action="{{ url_for('emergency_request') }}" class="form-grid">
 
-        <label>Hospital</label>
-        <input type="text" name="hospital" required>
+        <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" name="patient_name" placeholder="Enter full name" required>
+        </div>
 
-        <label>Contact Number</label>
-        <input type="text" name="contact" required>
+        <div class="form-group">
+            <label>Blood Group Needed</label>
+            <select name="blood_group" required>
+                <option value="">Select group</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option>
+                <option>O+</option><option>O-</option>
+            </select>
+        </div>
 
-        <label>Message (Optional)</label>
-        <textarea name="message" rows="3" placeholder="Extra details..."></textarea>
+        <div class="form-group">
+            <label>Units Needed</label>
+            <input type="text" name="units_needed" placeholder="e.g. 2 units" required>
+        </div>
 
-        <button type="submit">Submit Emergency Request</button>
+        <div class="form-group">
+            <label>Hospital</label>
+            <input type="text" name="hospital" placeholder="Hospital name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Contact Number</label>
+            <input type="text" name="contact" placeholder="Enter contact number" required>
+        </div>
+
+        <div class="form-group full">
+            <label>Message (Optional)</label>
+            <textarea name="message" placeholder="Extra details..."></textarea>
+        </div>
+
+        <div class="form-group full">
+            <button class="btn-primary">🚨 Send Emergency Request</button>
+        </div>
+
     </form>
 </section>
 
+
+<!-- RECENT REQUESTS -->
 <section class="card">
-    <h3>Recent Requests</h3>
+    <h3>📋 Recent Requests</h3>
+
     {% if requests %}
-        <table>
-            <tr>
-                <th>Patient</th>
-                <th>Group</th>
-                <th>Units</th>
-                <th>Hospital</th>
-                <th>Contact</th>
-                <th>Time</th>
-            </tr>
-            {% for req in requests %}
+        <div class="table-container">
+            <table class="modern-table">
+                <tr>
+                    <th>Patient</th>
+                    <th>Group</th>
+                    <th>Units</th>
+                    <th>Hospital</th>
+                    <th>Contact</th>
+                    <th>Time</th>
+                </tr>
+
+                {% for req in requests %}
                 <tr>
                     <td>{{ req["patient_name"] }}</td>
-                    <td>{{ req["blood_group"] }}</td>
+                    <td><span class="badge">{{ req["blood_group"] }}</span></td>
                     <td>{{ req["units_needed"] }}</td>
                     <td>{{ req["hospital"] }}</td>
                     <td>{{ req["contact"] }}</td>
                     <td>{{ req["created_at"] }}</td>
                 </tr>
-            {% endfor %}
-        </table>
+                {% endfor %}
+            </table>
+        </div>
     {% else %}
-        <p>No emergency requests yet.</p>
+        <p class="empty-text">No emergency requests yet.</p>
     {% endif %}
 </section>
+
 {% endblock %}

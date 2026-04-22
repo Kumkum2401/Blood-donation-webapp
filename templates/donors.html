@@ -1,29 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="card">
     <h2>All Registered Donors</h2>
+
     {% if donors %}
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Blood Group</th>
-                <th>Contact</th>
-                <th>City</th>
-            </tr>
-            {% for donor in donors %}
+    <div class="table-container">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Blood Group</th>
+                    <th>Contact</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for donor in donors %}
                 <tr>
                     <td>{{ donor["name"] }}</td>
                     <td>{{ donor["age"] }}</td>
-                    <td>{{ donor["blood_group"] }}</td>
+                    <td><span class="badge">{{ donor["blood_group"] }}</span></td>
                     <td>{{ donor["contact"] }}</td>
                     <td>{{ donor["city"] }}</td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
+            </tbody>
+
         </table>
+    </div>
+
     {% else %}
-        <p>No donors registered yet.</p>
+        <p class="empty">No donors found.</p>
     {% endif %}
 </section>
+
 {% endblock %}

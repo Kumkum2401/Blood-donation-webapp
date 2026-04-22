@@ -2,52 +2,62 @@
 
 {% block content %}
 
-<section class="card" style="text-align:center;">
+<section class="hero">
     <h1>🩸 Blood Donation Hub</h1>
-    <p>Connect. Save Lives. Donate Blood.</p>
+    <p>Connect • Save Lives • Donate Blood</p>
 </section>
 
 <section class="stats">
 
-    <div class="card">
+    <a href="{{ url_for('donors_list') }}" class="card-link">
+    <div class="card clickable">
         <h3>👥 Total Donors</h3>
         <p class="big">{{ donors_count }}</p>
     </div>
+    </a>
 
-    <div class="card">
-        <h3>🚨 Emergency Requests</h3>
-        <p class="big">{{ requests_count }}</p>
-    </div>
+    <a href="{{ url_for('emergency_request') }}" class="card-link">
+        <div class="card clickable">
+            <h3>🚨 Emergency Requests</h3>
+            <p class="big">{{ requests_count }}</p>
+        </div>
+    </a>
 
 </section>
 
-<!-- QUICK ACTION DASHBOARD -->
+<!-- ACTION CARDS -->
+<section class="grid">
+
+    <a class="action-card" href="{{ url_for('register_donor') }}">
+        ➕ Register Donor
+    </a>
+
+    <a class="action-card" href="{{ url_for('search_donors') }}">
+        🔍 Search Donor
+    </a>
+
+    <a class="action-card danger" href="{{ url_for('emergency_request') }}">
+        🚨 Emergency
+    </a>
+
+    <a class="action-card purple" href="{{ url_for('compatibility_checker') }}">
+        🧬 Compatibility
+    </a>
+
+</section>
+
+<!-- INFO -->
 <section class="card">
-    <h3>⚡ Quick Actions</h3>
+    <h3>💡 Why Donate Blood?</h3>
+    <p>1 donation can save up to 3 lives. Blood cannot be manufactured.</p>
+</section>
 
-    <div class="inline-form">
-
-        <a href="{{ url_for('register_donor') }}">
-            <button>➕ Register Donor</button>
-        </a>
-
-        <a href="{{ url_for('search_donors') }}">
-            <button>🔍 Search Donor</button>
-        </a>
-
-        <a href="{{ url_for('emergency_request') }}">
-            <button style="background:#b71c1c;">🚨 Emergency</button>
-        </a>
-
-        <a href="{{ url_for('compatibility_checker') }}">
-            <button style="background:#6a1b9a;">🧬 Compatibility</button>
-        </a>
-
-        <a href="{{ url_for('compatibility_checker') }}">
-            <button style="background:#6a1b9a;">Compatibility Checker</button>
-        </a>
-
-    </div>
+<section class="card">
+    <h3>📊 Blood Group Stats</h3>
+    <p>A+ : {{ ap_count }}</p>
+    <p>B+ : {{ bp_count }}</p>
+    <p>O+ : {{ op_count }}</p>
+    <p>AB+ : {{ abp_count }}</p>
 </section>
 
 {% endblock %}

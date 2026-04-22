@@ -1,16 +1,15 @@
 import os
 import sqlite3
 from datetime import datetime
-from flask import Flask, flash, g, redirect, render_template, request, url_for
-
+from flask import Flask, render_template, request, redirect, url_for, flash, g
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DEFAULT_DB_PATH = os.path.join(BASE_DIR, "blood_donation.db")
+DB_PATH = os.path.join(BASE_DIR, "blood_donation.db")
 
 
-# ------------------ COMPATIBILITY LOGIC ------------------
-def get_compatible_blood(blood_group):
-    compatibility = {
+# ---------------- COMPATIBILITY ----------------
+def get_compatible_blood(bg):
+    data = {
         "A+": ["A+", "A-", "O+", "O-"],
         "A-": ["A-", "O-"],
         "B+": ["B+", "B-", "O+", "O-"],
@@ -20,201 +19,165 @@ def get_compatible_blood(blood_group):
         "O+": ["O+", "O-"],
         "O-": ["O-"]
     }
-    return compatibility.get(blood_group.upper(), [])
+    return data.get(bg.upper(), [])
 
 
-# ------------------ DB ------------------
-def get_db(db_path):
-    conn = sqlite3.connect(db_path)
+# ---------------- DB ----------------
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
 
-def init_db(db_path):
-    conn = get_db(db_path)
+def init_db():
+    conn = get_db()
     conn.executescript("""
-        CREATE TABLE IF NOT EXISTS donors (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            age INTEGER NOT NULL,
-            blood_group TEXT NOT NULL,
-            contact TEXT NOT NULL,
-            city TEXT NOT NULL
-        );
+    CREATE TABLE IF NOT EXISTS donors(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        age INTEGER,
+        blood_group TEXT,
+        contact TEXT,
+        city TEXT
+    );
 
-        CREATE TABLE IF NOT EXISTS emergency_requests (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            patient_name TEXT NOT NULL,
-            blood_group TEXT NOT NULL,
-            units_needed TEXT NOT NULL,
-            hospital TEXT NOT NULL,
-            contact TEXT NOT NULL,
-            message TEXT,
-            created_at TEXT NOT NULL
-        );
+    CREATE TABLE IF NOT EXISTS emergency_requests(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        patient_name TEXT,
+        blood_group TEXT,
+        units_needed TEXT,
+        hospital TEXT,
+        contact TEXT,
+        message TEXT,
+        created_at TEXT
+    );
     """)
     conn.commit()
     conn.close()
 
 
-# ------------------ APP ------------------
-def create_app(test_config=None):
+# ---------------- APP ----------------
+def create_app():
     app = Flask(__name__)
-    app.config.from_mapping(
-        SECRET_KEY="dev-secret-key",
-        DATABASE=DEFAULT_DB_PATH,
-    )
+    app.secret_key = "secret"
+    app.config["DATABASE"] = DB_PATH
 
-    if test_config:
-        app.config.update(test_config)
-
-    # DB open
     @app.before_request
     def open_db():
-        g.db = get_db(app.config["DATABASE"])
+        g.db = get_db()
 
-    # DB close
     @app.teardown_appcontext
-    def close_db(exception=None):
+    def close_db(e=None):
         db = g.pop("db", None)
         if db:
             db.close()
 
-    # ------------------ HOME ------------------
+    # HOME
     @app.route("/")
     def home():
         donors_count = g.db.execute("SELECT COUNT(*) FROM donors").fetchone()[0]
-        requests_count = g.db.execute("SELECT COUNT(*) FROM emergency_requests").fetchone()[0]
+        req_count = g.db.execute("SELECT COUNT(*) FROM emergency_requests").fetchone()[0]
 
         return render_template(
             "index.html",
             donors_count=donors_count,
-            requests_count=requests_count
+            requests_count=req_count
         )
 
-    # ------------------ REGISTER ------------------
+    # REGISTER
     @app.route("/register", methods=["GET", "POST"])
     def register_donor():
         if request.method == "POST":
-            name = request.form.get("name", "").strip()
-            age = request.form.get("age", "").strip()
-            blood_group = request.form.get("blood_group", "").strip().upper()
-            contact = request.form.get("contact", "").strip()
-            city = request.form.get("city", "").strip()
-
-            if not all([name, age, blood_group, contact, city]):
-                flash("Please fill all fields", "error")
-                return redirect(url_for("register_donor"))
-
-            try:
-                age = int(age)
-                if age < 18:
-                    flash("Age must be 18+", "error")
-                    return redirect(url_for("register_donor"))
-            except:
-                flash("Invalid age", "error")
-                return redirect(url_for("register_donor"))
-
-            g.db.execute(
-                "INSERT INTO donors (name, age, blood_group, contact, city) VALUES (?, ?, ?, ?, ?)",
-                (name, age, blood_group, contact, city)
-            )
+            g.db.execute("""
+                INSERT INTO donors(name, age, blood_group, contact, city)
+                VALUES (?, ?, ?, ?, ?)
+            """, (
+                request.form["name"],
+                request.form["age"],
+                request.form["blood_group"],
+                request.form["contact"],
+                request.form["city"]
+            ))
             g.db.commit()
-
-            flash("Donor registered successfully!", "success")
+            flash("Donor Registered!", "success")
             return redirect(url_for("register_donor"))
 
         return render_template("register.html")
 
-    # ------------------ SEARCH ------------------
+    # SEARCH
     @app.route("/search")
     def search_donors():
-        bg = request.args.get("blood_group", "").strip().upper()
-
+        bg = request.args.get("blood_group", "").upper()
         donors = []
+
         if bg:
             donors = g.db.execute(
                 "SELECT * FROM donors WHERE blood_group=?",
                 (bg,)
             ).fetchall()
 
-        return render_template("search.html", donors=donors, selected_group=bg)
+        return render_template(
+            "search.html", 
+            donors=donors,
+            selected_group=bg)
+        
 
-    # ------------------ EMERGENCY ------------------
+    # EMERGENCY
     @app.route("/emergency", methods=["GET", "POST"])
     def emergency_request():
         if request.method == "POST":
-            patient = request.form.get("patient_name")
-            bg = request.form.get("blood_group")
-            units = request.form.get("units_needed")
-            hospital = request.form.get("hospital")
-            contact = request.form.get("contact")
-            message = request.form.get("message")
-
             g.db.execute("""
                 INSERT INTO emergency_requests
                 (patient_name, blood_group, units_needed, hospital, contact, message, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
-                patient,
-                bg,
-                units,
-                hospital,
-                contact,
-                message,
-                datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+                request.form["patient_name"],
+                request.form["blood_group"],
+                request.form["units_needed"],
+                request.form["hospital"],
+                request.form["contact"],
+                request.form["message"],
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             ))
-
             g.db.commit()
-            flash("Emergency request sent!", "success")
+            flash("Request Sent!", "success")
             return redirect(url_for("emergency_request"))
 
-        requests = g.db.execute(
-            "SELECT * FROM emergency_requests ORDER BY id DESC LIMIT 10"
-        ).fetchall()
+        data = g.db.execute("SELECT * FROM emergency_requests ORDER BY id DESC").fetchall()
+        return render_template("emergency.html", requests=data)
 
-        return render_template("emergency.html", requests=requests)
-
-    # ------------------ DONORS ------------------
+    # DONORS
     @app.route("/donors")
     def donors_list():
-        donors = g.db.execute("SELECT * FROM donors ORDER BY id DESC").fetchall()
-        return render_template("donors.html", donors=donors)
+        data = g.db.execute("SELECT * FROM donors ORDER BY id DESC").fetchall()
+        return render_template("donors.html", donors=data)
 
-    # ------------------ COMPATIBILITY ------------------
+    # COMPATIBILITY
     @app.route("/compatibility", methods=["GET", "POST"])
     def compatibility_checker():
-        result = None
+        result = []
         selected = None
 
         if request.method == "POST":
-            bg = request.form.get("blood_group", "").strip().upper()
-            selected = bg
+            selected = request.form["blood_group"]
+            compatible = get_compatible_blood(selected)
 
-            if bg:
-                compatible = get_compatible_blood(bg)
+            if compatible:
+                query = "SELECT * FROM donors WHERE blood_group IN ({})".format(
+                    ",".join(["?"] * len(compatible))
+                )
+                result = g.db.execute(query, compatible).fetchall()
 
-                if compatible:
-                    result = g.db.execute(
-                        "SELECT * FROM donors WHERE blood_group IN ({})".format(
-                            ",".join(["?"] * len(compatible))
-                        ),
-                        compatible
-                    ).fetchall()
-
-        return render_template(
-            "compatibility.html",
-            donors=result,
-            selected=selected
-        )
+        return render_template("compatibility.html", donors=result, selected=selected)
 
     return app
 
 
-# ------------------ RUN ------------------
+# ---------------- RUN ----------------
 app = create_app()
-init_db(app.config["DATABASE"])
+
+with app.app_context():
+    init_db()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)

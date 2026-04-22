@@ -1,31 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="card">
-    <h2>Donor Registration</h2>
-    <form method="post" class="form-grid">
-        <label>Name</label>
-        <input type="text" name="name" placeholder="Enter full name" required>
 
-        <label>Age</label>
-        <input type="number" name="age" placeholder="Enter age" required>
+<div class="form-container">
 
-        <label>Blood Group</label>
-        <select name="blood_group" required>
-            <option value="">Select group</option>
-            <option>A+</option><option>A-</option>
-            <option>B+</option><option>B-</option>
-            <option>AB+</option><option>AB-</option>
-            <option>O+</option><option>O-</option>
-        </select>
+    <div class="form-card">
 
-        <label>Contact Number</label>
-        <input type="text" name="contact" placeholder="Enter contact number" required>
+        <h2>🩸 Donor Registration</h2>
+        <p class="subtitle">Fill your details to save lives ❤️</p>
 
-        <label>City</label>
-        <input type="text" name="city" placeholder="Enter city" required>
+        <form method="POST">
 
-        <button type="submit">Register Donor</button>
-    </form>
-</section>
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Enter full name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Age</label>
+                <input type="number" name="age" placeholder="Enter age" required>
+            </div>
+
+            <div class="input-group">
+                <label>Blood Group</label>
+                <select name="blood_group" required>
+                    <option value="">Select group</option>
+                    <option>A+</option>
+                    <option>A-</option>
+                    <option>B+</option>
+                    <option>B-</option>
+                    <option>AB+</option>
+                    <option>AB-</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Contact Number</label>
+                <input type="text" name="contact" placeholder="Enter contact number" required>
+            </div>
+
+            <div class="input-group">
+                <label>City</label>
+                <input type="text" name="city" placeholder="Enter city" required>
+            </div>
+
+            <button type="submit" class="btn">❤️ Register Donor</button>
+
+        </form>
+
+    </div>
+
+</div>
+
 {% endblock %}
