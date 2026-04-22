@@ -3,14 +3,10 @@
 {% block content %}
 
 <section class="card">
-    <h2>Welcome to Blood Donation App 🩸</h2>
-    <p>
-        This platform connects blood donors with people in emergency need.
-        Your one donation can save up to 3 lives ❤️
-    </p>
+    <h2>🩸 Blood Donation Dashboard</h2>
+    <p>Every donation saves lives ❤️</p>
 </section>
 
-<section class="stats">
 <section class="stats">
 
     <div class="card">
@@ -23,44 +19,56 @@
         <p class="big">{{ requests_count }}</p>
     </div>
 
-    <div class="card">
-        <h3>🅰️ A+ Donors</h3>
-        <p class="big">{{ ap_count }}</p>
-    </div>
-
-    <div class="card">
-        <h3>🅱️ B+ Donors</h3>
-        <p class="big">{{ bp_count }}</p>
-    </div>
-
-    <div class="card">
-        <h3>🅾️ O+ Donors</h3>
-        <p class="big">{{ op_count }}</p>
-    </div>
-
-    <div class="card">
-        <h3>🆎 AB+ Donors</h3>
-        <p class="big">{{ abp_count }}</p>
-    </div>
-
 </section>
 
-
+<!-- NEW VISUAL SECTION (IMPORTANT CHANGE) -->
 <section class="card">
+    <h3>🧬 Blood Group Distribution</h3>
+
+    <div class="stats">
+
+        <div class="card aplus">
+            <h4>A+</h4>
+            <p class="big">{{ ap_count }}</p>
+        </div>
+
+        <div class="card bplus">
+            <h4>B+</h4>
+            <p class="big">{{ bp_count }}</p>
+        </div>
+
+        <div class="card oplus">
+            <h4>O+</h4>
+            <p class="big">{{ op_count }}</p>
+        </div>
+
+        <div class="card abplus">
+            <h4>AB+</h4>
+            <p class="big">{{ abp_count }}</p>
+        </div>
+
+    </div>
+</section>
+
+<<section class="card">
     <h3>⚡ Quick Actions</h3>
+    <p>Choose what you want to do</p>
 
-    <div class="inline-form">
+    <div class="action-grid">
 
-        <a href="{{ url_for('register_donor') }}">
-            <button>Register as Donor</button>
+        <a href="{{ url_for('register_donor') }}" class="action-card">
+            🩸
+            <span>Register Donor</span>
         </a>
 
-        <a href="{{ url_for('search_donors') }}">
-            <button style="background:#1565c0;">Find Donor</button>
+        <a href="{{ url_for('search_donors') }}" class="action-card blue">
+            🔍
+            <span>Search Donor</span>
         </a>
 
-        <a href="{{ url_for('emergency_request') }}">
-            <button style="background:#b71c1c;">Emergency Help</button>
+        <a href="{{ url_for('emergency_request') }}" class="action-card red">
+            🚨
+            <span>Emergency Help</span>
         </a>
 
     </div>

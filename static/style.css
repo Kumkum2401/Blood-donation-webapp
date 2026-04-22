@@ -142,3 +142,57 @@ th {
     background: #ffebee;
     color: #b71c1c;
 }
+
+.aplus {
+    border-left: 6px solid #e53935;
+}
+
+.bplus {
+    border-left: 6px solid #1e88e5;
+}
+
+.oplus {
+    border-left: 6px solid #43a047;
+}
+
+.abplus {
+    border-left: 6px solid #8e24aa;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.action-card span {
+    margin-top: 8px;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+}
+
+.action-card.blue {
+    border-top: 4px solid #1e88e5;
+}
+
+.action-card.red {
+    border-top: 4px solid #e53935;
+}
