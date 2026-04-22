@@ -31,23 +31,23 @@ def create_app(test_config=None):
 
     @app.route("/")
     def home():
-    donors_count = g.db.execute("SELECT COUNT(*) FROM donors").fetchone()[0]
-    requests_count = g.db.execute("SELECT COUNT(*) FROM emergency_requests").fetchone()[0]
+        donors_count = g.db.execute("SELECT COUNT(*) FROM donors").fetchone()[0]
+        requests_count = g.db.execute("SELECT COUNT(*) FROM emergency_requests").fetchone()[0]
 
-    ap_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='A+'").fetchone()[0]
-    bp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='B+'").fetchone()[0]
-    op_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='O+'").fetchone()[0]
-    abp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='AB+'").fetchone()[0]
+        ap_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='A+'").fetchone()[0]
+        bp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='B+'").fetchone()[0]
+        op_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='O+'").fetchone()[0]
+        abp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='AB+'").fetchone()[0]
 
-    return render_template(
-        "index.html",
-        donors_count=donors_count,
-        requests_count=requests_count,
-        ap_count=ap_count,
-        bp_count=bp_count,
-        op_count=op_count,
-        abp_count=abp_count
-    )
+        return render_template(
+            "index.html",
+             donors_count=donors_count,
+             requests_count=requests_count,
+             ap_count=ap_count,
+             bp_count=bp_count,
+             op_count=op_count,
+            abp_count=abp_count
+        )
 
     @app.route("/register", methods=["GET", "POST"])
     def register_donor():
