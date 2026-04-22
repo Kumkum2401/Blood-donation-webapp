@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h2>🩸 Blood Compatibility Checker</h2>
+
+    <form method="POST">
+        <label>Select Blood Group</label>
+        <select name="blood_group" required>
+            <option value="">-- Select --</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+        </select>
+
+        <button type="submit">Check Compatibility</button>
+    </form>
+</section>
+
+{% if selected %}
+<section class="card">
+    <h3>Compatible Donors for {{ selected }}</h3>
+
+    {% if donors %}
+        {% for d in donors %}
+            <div class="donor-card">
+                <p><b>Name:</b> {{ d.name }}</p>
+                <p><b>Blood Group:</b> {{ d.blood_group }}</p>
+                <p><b>City:</b> {{ d.city }}</p>
+                <p><b>Contact:</b> {{ d.contact }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No compatible donors found 😔</p>
+    {% endif %}
+</section>
+{% endif %}
+
+{% endblock %}
