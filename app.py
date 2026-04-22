@@ -23,7 +23,7 @@ def create_app(test_config=None):
     def open_db_connection():
         g.db = get_db(app.config["DATABASE"])
 
-    @app.teardown_request
+    @app.teardown_appcontext
     def close_db_connection(exception=None):
         db = g.pop("db", None)
         if db is not None:
