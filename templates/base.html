@@ -3,31 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Blood Donation App</title>
+
+    <meta name="description" content="Connect blood donors and recipients instantly">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Google Font (clean modern look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
+
+    <!-- HEADER -->
     <header>
-        <h1>Blood Donation Web App</h1>
+        <div class="logo">
+            🩸 Blood Donation App
+        </div>
+
         <nav>
             <a href="{{ url_for('home') }}">Home</a>
             <a href="{{ url_for('register_donor') }}">Register Donor</a>
-            <a href="{{ url_for('search_donors') }}">Search by Group</a>
-            <a href="{{ url_for('emergency_request') }}">Emergency Request</a>
-            <a href="{{ url_for('donors_list') }}">All Donors</a>
+            <a href="{{ url_for('search_donors') }}">Search</a>
+            <a href="{{ url_for('emergency_request') }}">Emergency</a>
+            <a href="{{ url_for('donors_list') }}">Donors</a>
         </nav>
     </header>
 
-    <main class="container">
+    <!-- FLASH MESSAGES -->
+    <div class="flash-container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
+                    <div class="flash {{ category|lower }}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
+    </div>
 
+    <!-- MAIN CONTENT -->
+    <main class="container">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Blood Donation App | Made with ❤️ to save lives</p>
+    </footer>
+
 </body>
 </html>

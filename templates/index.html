@@ -1,19 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="card">
-    <h2>Welcome</h2>
-    <p>This app helps connect blood donors and people in emergency need.</p>
+    <h2>Welcome to Blood Donation App 🩸</h2>
+    <p>
+        This platform connects blood donors with people in emergency need.
+        Your one donation can save up to 3 lives ❤️
+    </p>
 </section>
 
 <section class="stats">
+<section class="stats">
+
     <div class="card">
-        <h3>Total Donors</h3>
+        <h3>👥 Total Donors</h3>
         <p class="big">{{ donors_count }}</p>
     </div>
+
     <div class="card">
-        <h3>Emergency Requests</h3>
+        <h3>🚨 Emergency Requests</h3>
         <p class="big">{{ requests_count }}</p>
     </div>
+
+    <div class="card">
+        <h3>🅰️ A+ Donors</h3>
+        <p class="big">{{ ap_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>🅱️ B+ Donors</h3>
+        <p class="big">{{ bp_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>🅾️ O+ Donors</h3>
+        <p class="big">{{ op_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>🆎 AB+ Donors</h3>
+        <p class="big">{{ abp_count }}</p>
+    </div>
+
 </section>
+
+
+<section class="card">
+    <h3>⚡ Quick Actions</h3>
+
+    <div class="inline-form">
+
+        <a href="{{ url_for('register_donor') }}">
+            <button>Register as Donor</button>
+        </a>
+
+        <a href="{{ url_for('search_donors') }}">
+            <button style="background:#1565c0;">Find Donor</button>
+        </a>
+
+        <a href="{{ url_for('emergency_request') }}">
+            <button style="background:#b71c1c;">Emergency Help</button>
+        </a>
+
+    </div>
+</section>
+
 {% endblock %}
