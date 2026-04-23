@@ -2,12 +2,16 @@
 
 {% block content %}
 
-<!-- SEARCH BOX -->
-<section class="card search-card">
-    <h2>🔍 Find Blood Donors</h2>
-    <p class="subtitle">Search donors by blood group instantly</p>
+<!-- SEARCH HERO -->
+<section class="search-hero">
+    <h1>🔍 Find Blood Donors</h1>
+    <p>Search donors by blood group instantly ❤️</p>
+</section>
 
-    <form method="get" class="search-form">
+<!-- SEARCH BOX -->
+<section class="search-card">
+    <form method="get" class="search-box">
+
         <select name="blood_group" required>
             <option value="">Select Blood Group</option>
             {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
@@ -17,33 +21,38 @@
             {% endfor %}
         </select>
 
-        <button type="submit">Search</button>
+        <!-- 🔥 NEW CITY INPUT -->
+        <input type="text" name="city" placeholder="Enter city (optional)" value="{{ request.args.get('city','') }}">
+
+        <button type="submit">🔍 Search</button>
+
     </form>
 </section>
 
-
 <!-- RESULTS -->
 {% if selected_group %}
-<section class="card results-card">
+<section class="results-card">
 
-    <h3>🩸 Donors for {{ selected_group }}</h3>
+    <h3>Results for {{ selected_group }}</h3>
 
     {% if donors %}
         <div class="donor-grid">
             {% for donor in donors %}
-                <div class="donor-card">
-                    <h4>{{ donor["name"] }}</h4>
+            <div class="donor-card">
+                <h4>{{ donor["name"] }}</h4>
+                <p>🩸 {{ donor["blood_group"] }}</p>
+                <p>📍 {{ donor["city"] }}</p>
 
-                    <p><strong>Age:</strong> {{ donor["age"] }}</p>
-                    <p><strong>City:</strong> {{ donor["city"] }}</p>
-                    <p><strong>Contact:</strong> {{ donor["contact"] }}</p>
-
-                    <a href="tel:{{ donor['contact'] }}" class="call-btn">📞 Call</a>
-                </div>
+                <a href="tel:{{ donor['contact'] }}" class="call-btn">📞 Call</a>
+                <a href="https://wa.me/{{ donor['contact'] }}" class="wa-btn">💬 WhatsApp</a>
+            </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="empty">No donors found 😕</p>
+        <p class="empty">
+            😔 No donors found <br>
+            👉 Try another blood group or city
+        </p>
     {% endif %}
 
 </section>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+            <div class="avatar">👤</div>
+            <h2>{{ name }}</h2>
+            <p class="subtitle">Blood Donor Member ❤️</p>
+        </div>
+
+        <div class="profile-info">
+            <p><strong>Status:</strong> Active</p>
+            <p><strong>Role:</strong> User</p>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{{ url_for('register_donor') }}" class="btn">➕ Register as Donor</a>
+            <a href="{{ url_for('logout') }}" class="btn" style="background:#444;">🚪 Logout</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

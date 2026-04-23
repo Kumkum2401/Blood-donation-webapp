@@ -3,21 +3,24 @@
 {% block content %}
 
 <section class="hero">
-    <h1>🩸 Blood Donation Hub</h1>
-    <p>Connect • Save Lives • Donate Blood</p>
+    <h1>🩸 Save Lives with Blood Donation</h1>
+    <p>Be a hero today. Your one donation can save lives ❤️</p>
+    <a href="{{ url_for('register_donor') }}" class="hero-btn">
+        Become a Donor
+    </a>
 </section>
 
 <section class="stats">
 
     <a href="{{ url_for('donors_list') }}" class="card-link">
-    <div class="card clickable">
-        <h3>👥 Total Donors</h3>
-        <p class="big">{{ donors_count }}</p>
-    </div>
+        <div class="stat-card donors">
+            <h3>👥 Total Donors</h3>
+            <p class="big">{{ donors_count }}</p>
+        </div>
     </a>
 
     <a href="{{ url_for('emergency_request') }}" class="card-link">
-        <div class="card clickable">
+        <div class="stat-card emergency">
             <h3>🚨 Emergency Requests</h3>
             <p class="big">{{ requests_count }}</p>
         </div>
@@ -60,4 +63,20 @@
     <p>AB+ : {{ abp_count }}</p>
 </section>
 
-{% endblock %}
+<section class="card">
+    <h2 style="text-align:center;">🌍 Popular Cities</h2>
+    <p style="text-align:center; color:gray;">Find donors near you</p>
+
+    <div class="city-grid">
+
+        {% for city in cities %}
+        <div class="city-card">
+            <h3>{{ city["city"] }}</h3>
+            <p>{{ city["total"] }} donors</p>
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
+{% endblock %}  

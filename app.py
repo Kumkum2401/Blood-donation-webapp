@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash, g
+from flask import Flask, render_template, request, redirect, url_for, flash, g, session
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join(BASE_DIR, "blood_donation.db")
@@ -51,6 +51,13 @@ def init_db():
         message TEXT,
         created_at TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT UNIQUE,
+        password TEXT
+    );
     """)
     conn.commit()
     conn.close()
@@ -60,7 +67,6 @@ def init_db():
 def create_app():
     app = Flask(__name__)
     app.secret_key = "secret"
-    app.config["DATABASE"] = DB_PATH
 
     @app.before_request
     def open_db():
@@ -78,13 +84,81 @@ def create_app():
         donors_count = g.db.execute("SELECT COUNT(*) FROM donors").fetchone()[0]
         req_count = g.db.execute("SELECT COUNT(*) FROM emergency_requests").fetchone()[0]
 
-        return render_template(
-            "index.html",
+        ap_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='A+'").fetchone()[0]
+        bp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='B+'").fetchone()[0]
+        op_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='O+'").fetchone()[0]
+        abp_count = g.db.execute("SELECT COUNT(*) FROM donors WHERE blood_group='AB+'").fetchone()[0]
+
+        city_data = g.db.execute("""
+            SELECT city, COUNT(*) as total 
+            FROM donors 
+            GROUP BY city 
+            ORDER BY total DESC
+        """).fetchall()
+
+        return render_template("index.html",
             donors_count=donors_count,
-            requests_count=req_count
+            requests_count=req_count,
+            ap_count=ap_count,
+            bp_count=bp_count,
+            op_count=op_count,
+            abp_count=abp_count,
+            cities=city_data
         )
 
-    # REGISTER
+    # ---------------- AUTH ----------------
+
+    @app.route("/signup", methods=["GET", "POST"])
+    def signup():
+        if request.method == "POST":
+            try:
+                g.db.execute(
+                    "INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+                    (
+                        request.form["name"],
+                        request.form["email"],
+                        request.form["password"]
+                    )
+                )
+                g.db.commit()
+                flash("Account Created!", "success")
+                return redirect(url_for("login"))
+            except:
+                flash("Email already exists!", "error")
+
+        return render_template("signup.html")
+
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            user = g.db.execute(
+                "SELECT * FROM users WHERE email=? AND password=?",
+                (request.form["email"], request.form["password"])
+            ).fetchone()
+
+            if user:
+                session["user_id"] = user["id"]
+                session["user_name"] = user["name"]
+                return redirect(url_for("profile"))
+            else:
+                flash("Invalid credentials!", "error")
+
+        return render_template("login.html")
+
+    @app.route("/profile")
+    def profile():
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+
+        return render_template("profile.html", name=session["user_name"])
+
+    @app.route("/logout")
+    def logout():
+        session.clear()
+        return redirect(url_for("login"))
+
+    # ---------------- DONOR ----------------
+
     @app.route("/register", methods=["GET", "POST"])
     def register_donor():
         if request.method == "POST":
@@ -104,25 +178,32 @@ def create_app():
 
         return render_template("register.html")
 
-    # SEARCH
     @app.route("/search")
     def search_donors():
         bg = request.args.get("blood_group", "").upper()
-        donors = []
+        city = request.args.get("city", "")
+
+        query = "SELECT * FROM donors WHERE 1=1"
+        params = []
 
         if bg:
-            donors = g.db.execute(
-                "SELECT * FROM donors WHERE blood_group=?",
-                (bg,)
-            ).fetchall()
+            query += " AND blood_group=?"
+            params.append(bg)
 
-        return render_template(
-            "search.html", 
+        if city:
+            query += " AND city LIKE ?"
+            params.append(f"%{city}%")
+
+        donors = g.db.execute(query, params).fetchall()
+
+        return render_template("search.html",
             donors=donors,
-            selected_group=bg)
-        
+            selected_group=bg,
+            selected_city=city
+        )
 
-    # EMERGENCY
+    # ---------------- EMERGENCY ----------------
+
     @app.route("/emergency", methods=["GET", "POST"])
     def emergency_request():
         if request.method == "POST":
@@ -146,13 +227,13 @@ def create_app():
         data = g.db.execute("SELECT * FROM emergency_requests ORDER BY id DESC").fetchall()
         return render_template("emergency.html", requests=data)
 
-    # DONORS
+    # ---------------- OTHER ----------------
+
     @app.route("/donors")
     def donors_list():
         data = g.db.execute("SELECT * FROM donors ORDER BY id DESC").fetchall()
         return render_template("donors.html", donors=data)
 
-    # COMPATIBILITY
     @app.route("/compatibility", methods=["GET", "POST"])
     def compatibility_checker():
         result = []
