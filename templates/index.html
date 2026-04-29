@@ -5,9 +5,7 @@
 <section class="hero">
     <h1>🩸 Save Lives with Blood Donation</h1>
     <p>Be a hero today. Your one donation can save lives ❤️</p>
-    <a href="{{ url_for('register_donor') }}" class="hero-btn">
-        Become a Donor
-    </a>
+    <a href="{{ url_for('signup') }}" class="hero-btn">Become a Donor</a>
 </section>
 
 <section class="stats">
@@ -31,8 +29,8 @@
 <!-- ACTION CARDS -->
 <section class="grid">
 
-    <a class="action-card" href="{{ url_for('register_donor') }}">
-        ➕ Register Donor
+    <a class="action-card" href="{{ url_for('signup') }}">
+        ➕ join us
     </a>
 
     <a class="action-card" href="{{ url_for('search_donors') }}">
@@ -57,10 +55,41 @@
 
 <section class="card">
     <h3>📊 Blood Group Stats</h3>
-    <p>A+ : {{ ap_count }}</p>
-    <p>B+ : {{ bp_count }}</p>
-    <p>O+ : {{ op_count }}</p>
-    <p>AB+ : {{ abp_count }}</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; margin-top: 15px;">
+        
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">A+ :</b> {{ stats['A+'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">A- :</b> {{ stats['A-'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">B+ :</b> {{ stats['B+'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">B- :</b> {{ stats['B-'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">O+ :</b> {{ stats['O+'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">O- :</b> {{ stats['O-'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">AB+ :</b> {{ stats['AB+'] if stats else 0 }}
+        </div>
+
+        <div style="background: #fdf2f2; padding: 10px; border-radius: 10px; border: 1px solid #ffcfcf; text-align: center;">
+            <b style="color: #e63946;">AB- :</b> {{ stats['AB-'] if stats else 0 }}
+        </div>
+
+    </div>
 </section>
 
 <section class="card">

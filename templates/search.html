@@ -4,10 +4,9 @@
 
 <!-- SEARCH HERO -->
 <section class="search-hero">
-    <h1>🔍 Find Blood Donors</h1>
-    <p>Search donors by blood group instantly ❤️</p>
+    <h1>🔍 {% if donors %} {{ donors|length }} Donors Found {% else %} Find Blood Donors {% endif %}</h1>
+    <p>Connecting you with life-savers in real-time ❤️</p>
 </section>
-
 <!-- SEARCH BOX -->
 <section class="search-card">
     <form method="get" class="search-box">
@@ -24,7 +23,9 @@
         <!-- 🔥 NEW CITY INPUT -->
         <input type="text" name="city" placeholder="Enter city (optional)" value="{{ request.args.get('city','') }}">
 
-        <button type="submit">🔍 Search</button>
+        <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i> Find Now
+        </button>
 
     </form>
 </section>
@@ -44,15 +45,19 @@
                 <p>📍 {{ donor["city"] }}</p>
 
                 <a href="tel:{{ donor['contact'] }}" class="call-btn">📞 Call</a>
-                <a href="https://wa.me/{{ donor['contact'] }}" class="wa-btn">💬 WhatsApp</a>
+                <a href="https://wa.me/{{ donor['contact'] }}" target="_blank" class="wa-btn">
+                    <i class="fab fa-whatsapp"></i> WhatsApp</a>
             </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="empty">
-            😔 No donors found <br>
-            👉 Try another blood group or city
-        </p>
+        <div class="empty-state" style="text-align:center; padding: 40px; background: #f9f9f9; border-radius: 15px; margin-top: 20px;">
+            <i class="fas fa-search-minus" style="font-size: 50px; color: #ccc; margin-bottom: 15px;"></i>
+            <p style="color: #666; font-size: 18px;">
+                <strong>No Donors Found!</strong><br>
+                Try a different city or check compatible blood groups.
+            </p>
+        </div>
     {% endif %}
 
 </section>

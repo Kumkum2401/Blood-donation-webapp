@@ -27,21 +27,6 @@ class BloodDonationAppTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Blood Donation Web App", response.data)
 
-    def test_register_donor(self):
-        response = self.client.post(
-            "/register",
-            data={
-                "name": "Anita",
-                "age": "24",
-                "blood_group": "O+",
-                "contact": "9999999999",
-                "city": "Delhi",
-            },
-            follow_redirects=True,
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Donor registered successfully!", response.data)
-
     def test_submit_emergency_request(self):
         response = self.client.post(
             "/emergency",

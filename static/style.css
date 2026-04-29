@@ -621,7 +621,7 @@ footer {
 
 .nav-links {
     display: flex;
-    gap: 15px;
+    gap: 8px;
     align-items: center;
 }
 
@@ -724,4 +724,454 @@ footer {
     border-top: 1px solid #333;
     color: #666;
     font-size: 0.8rem;
+}
+
+/* --- PROFILE PAGE UPGRADE --- */
+
+/* Purane profile-container ko update karega */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    min-height: 80vh;
+}
+
+.profile-card {
+    max-width: 450px; 
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    position: relative;
+    border: none; /* Purana border hatane ke liye */
+}
+
+/* Card ke upar stylish red banner */
+.profile-banner {
+    height: 120px;
+    background: linear-gradient(135deg, #ff4e50, #b71c1c);
+}
+
+.profile-content {
+    padding: 0 30px 40px;
+    margin-top: -60px; /* Avatar ko banner ke upar set karega */
+    text-align: center;
+}
+
+.avatar-wrapper {
+    font-size: 80px;
+    background: #fff;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e63946;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 5px solid #fff;
+}
+
+.profile-name {
+    margin: 15px 0 5px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3436;
+    text-transform: capitalize;
+}
+
+.verified-badge {
+    background: #e8f5e9;
+    color: #1b5e20;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+    text-align: center; /* Text ko center karne ke liye */
+}
+
+.detail-box {
+    background: #fdfdfd;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Icons aur text ko center align karega */
+}
+
+.detail-box label {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.detail-box p {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+/* Buttons Upgrade */
+.profile-actions-new {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-main {
+    background: linear-gradient(135deg, #ff4e50, #b71c1c);
+    color: white !important;
+    padding: 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    display: block;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+
+.btn-outline {
+    border: 2px solid #eee;
+    color: #666 !important;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    display: block;
+}
+
+.btn-main:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4); }
+.btn-outline:hover { background: #f8f9fa; border-color: #ddd; color: #333 !important; }
+
+/* Compatibility Custom Styling */
+.compat-hero {
+    background: linear-gradient(135deg, #e63946 0%, #a4161a 100%);
+    padding: 60px 20px;
+    color: white;
+    text-align: center;
+    border-radius: 0 0 30px 30px;
+}
+
+.compat-header i { font-size: 3rem; margin-bottom: 15px; }
+
+.compat-card-main {
+    background: white;
+    color: #333;
+    max-width: 500px;
+    margin: -40px auto 0;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.btn-check-pro {
+    background: #e63946;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-check-pro:hover { background: #333; transform: translateY(-2px); }
+
+/* Results Grid */
+/* --- DONOR CARD PRO UPGRADE (Buttons Centered) --- */
+.donor-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 5%; /* Side gaps maintain karne ke liye */
+}
+
+.donor-card-pro {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px auto;      /* Card ko page ke bich mein rakhega */
+    max-width: 350px;       /* Card ki width fix karega */
+    
+    display: flex !important; 
+    flex-direction: column !important; /* Force karega ki badge upar rahe aur info niche */
+    align-items: center !important;    /* Sab kuch horizontal center kar dega */
+    justify-content: center;
+    
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    transition: 0.3s ease;
+}
+
+.donor-card-pro:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* Blood Group Badge Styling */
+.blood-badge {
+    background: #ffeef0;
+    color: #e63946;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 15px; /* Name se thoda gap */
+    box-shadow: 0 4px 10px rgba(230, 57, 70, 0.1);
+}
+
+/* Donor Info Styling */
+.donor-info {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.donor-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+    color: #2d3436;
+    text-transform: capitalize;
+}
+
+.donor-info p {
+    color: #636e72;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Buttons Center Alignment */
+.donor-actions { 
+    display: flex; 
+    gap: 12px; 
+    justify-content: center; /* Buttons ko bech mein lane ke liye */
+    width: 100%;
+}
+
+.action-btn { 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px; 
+    border-radius: 10px; 
+    color: white; 
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.action-btn.call { 
+    background: #4361ee; 
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+}
+
+.action-btn.wa { 
+    background: #25d366; 
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* --- QUICK GUIDE TABLE RE-STYLING --- */
+.info-section {
+    padding: 50px 5%;
+}
+
+.info-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid #eee;
+}
+
+.modern-table {
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.modern-table th {
+    background: #f8f9fa; /* Light header for premium feel */
+    color: #333;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+/* Quick Fix for the "Corner Issue" */
+.container-wrapper {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* --- HOME PAGE BUTTONS FIX --- */
+.hero-btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* --- REVEAL ANIMATION FIX --- */
+/* Agar ye 0 hai toh page white dikhega, isliye check karein */
+.reveal {
+    opacity: 1 !important; /* Testing ke liye hamesha dikhayega */
+    transform: none !important;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Mobile par form 1 column ho jayega */
+    }
+    .form-group.full {
+        grid-column: span 1;
+    }
+    .navbar {
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* --- Pro Styling for Compatibility Page --- */
+
+/* No Results Box ko center karne ke liye */
+.empty-state-card {
+    text-align: center;
+    padding: 50px 20px;
+    background: #fffafa; /* Light Red tint */
+    border-radius: 20px;
+    border: 2px dashed #ffccd5; /* Dashed border looks professional */
+    margin: 30px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.empty-state-card i {
+    font-size: 50px;
+    color: #e63946;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.empty-state-card h4 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.btn-small {
+    display: inline-block;
+    padding: 10px 22px;
+    background: #e63946;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+.btn-small:hover {
+    background: #333;
+    transform: translateY(-2px);
+}
+
+/* Quick Guide Spacing Fix (Jo aapne corner wala issue bataya tha) */
+.info-section {
+    padding: 40px 10% !important; /* 10% side se gap dega */
+}
+
+.info-card {
+    border-left: 5px solid #e63946;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* --- ONLY FIX FOR SIDE BADGE --- */
+.donor-card {
+    display: flex !important;
+    flex-direction: column !important; /* Elements ko upar-niche karega */
+    align-items: center !important;    /* O+ aur text ko center karega */
+    text-align: center !important;
+    padding: 25px !important;
+}
+
+.blood-badge {
+    margin: 0 auto 15px auto !important; /* Gole ko center mein dhakelega */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.donor-actions {
+    display: flex !important;
+    justify-content: center !important; /* Buttons ko center karega */
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+}
+/* --- FIX END --- */
+
+/* Emergency Page Button Upgrade */
+.form-card button, 
+.form-card .btn {
+    width: 100%;             /* Button ko puri width dega */
+    padding: 15px;           /* Height badhayega */
+    background: linear-gradient(135deg, #ff4e50, #b71c1c); /* Red gradient */
+    color: white;
+    border: none;
+    border-radius: 12px;     /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 20px;
+    display: block;
+    box-shadow: 0 4px 15px rgba(183, 28, 28, 0.3); /* Soft red shadow */
+}
+
+.form-card button:hover {
+    transform: translateY(-2px); /* Hover par thoda upar uthega */
+    box-shadow: 0 6px 20px rgba(183, 28, 28, 0.4);
+    filter: brightness(1.1);
 }

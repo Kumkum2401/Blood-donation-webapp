@@ -3,34 +3,72 @@
 
 <div class="form-container">
     <div class="form-card">
-
         <h2>📝 Create Account</h2>
-        <p class="subtitle">Join us & help save lives ❤️</p>
+        <p class="subtitle">Join our community & help save lives ❤️</p>
 
         <form method="post">
+            <div class="form-grid">
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="name" placeholder="Enter full name" required>
+                </div>
 
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" placeholder="Enter full name" required>
-            </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" placeholder="xyz@example.com" required>
+                </div>
 
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="Enter email" required>
-            </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" name="password" placeholder="Enter password" required>
+                </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter password" required>
-            </div>
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Age</label>
+                    <input type="number" name="age" placeholder="e.g. 25" min="18" max="65">
+                </div>
 
-            <button class="btn">🚀 Signup</button>
+                <div class="form-group">
+                    <label><i class="fas fa-user-tag"></i> Register as</label>
+                    <select name="role" required>
+                        <option value="" disabled selected>Select role</option>
+                        <option value="Donor">Donor</option>
+                        <option value="Requester">Requester</option>
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label><i class="fas fa-tint"></i> Blood Group</label>
+                    <select name="blood_group" required>
+                        <option value="" disabled selected>Select blood group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-city"></i> City</label>
+                    <input type="text" name="city" placeholder="Enter city" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Contact Number</label>
+                    <input type="text" name="contact" placeholder="Enter contact number" required>
+                </div>
+
+            </div> <button type="submit" class="btn" style="margin-top: 20px;">🚀 Create Account</button>
         </form>
 
-        <p style="text-align:center; margin-top:10px;">
+        <p style="text-align:center; margin-top:20px; font-size: 14px; color: #666;">
             Already have an account?
-            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('login') }}" style="color: #e63946; font-weight: 600; text-decoration: none;">Login</a>
         </p>
 
     </div>

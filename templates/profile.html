@@ -1,28 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <div class="profile-container">
-
     <div class="profile-card">
+        <div class="profile-banner"></div>
+        
+        <div class="profile-content">
+            <div class="avatar-wrapper">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            
+            <h2 class="profile-name">{{ user.name }}</h2>
+            <span class="badge success-light">{{ user.role }} Account</span>
 
-        <div class="profile-header">
-            <div class="avatar">👤</div>
-            <h2>{{ name }}</h2>
-            <p class="subtitle">Blood Donor Member ❤️</p>
+            <div class="profile-details-grid">
+                <div class="detail-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <small>Status</small>
+                        <p>Active Member</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <i class="fas fa-tint" style="color: #e63946;"></i>
+                    <div>
+                        <small>Blood Group</small>
+                        <p>{{ user.blood_group if user.blood_group else 'Not Provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <small>City</small>
+                        <p>{{ user.city if user.city else 'Not Provided' }}</p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <small>Contact</small>
+                        <p>{{ user.contact if user.contact else 'Not Provided' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-actions-new">
+                <a href="{{ url_for('logout') }}" class="btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </div>
-
-        <div class="profile-info">
-            <p><strong>Status:</strong> Active</p>
-            <p><strong>Role:</strong> User</p>
-        </div>
-
-        <div class="profile-actions">
-            <a href="{{ url_for('register_donor') }}" class="btn">➕ Register as Donor</a>
-            <a href="{{ url_for('logout') }}" class="btn" style="background:#444;">🚪 Logout</a>
-        </div>
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -1,44 +1,88 @@
 {% extends "base.html" %}
-
 {% block content %}
-<section class="card">
-    <h2>🩸 Blood Compatibility Checker</h2>
 
-    <form method="POST">
-        <label>Select Blood Group</label>
-        <select name="blood_group" required>
-            <option value="">-- Select --</option>
-            <option>A+</option>
-            <option>A-</option>
-            <option>B+</option>
-            <option>B-</option>
-            <option>AB+</option>
-            <option>AB-</option>
-            <option>O+</option>
-            <option>O-</option>
-        </select>
+<section class="compat-hero">
+    <div class="compat-header">
+        <i class="fas fa-hand-holding-heart"></i>
+        <h1>Blood Compatibility Checker</h1>
+        <p>Jaaniye kaunse donors aapki madad kar sakte hain.</p>
+    </div>
 
-        <button type="submit">Check Compatibility</button>
-    </form>
+    <div class="compat-card-main">
+        <form method="GET" action="{{ url_for('compatibility_checker') }}" class="compat-form">
+            <div class="form-input-group">
+                <label>Recipient's Blood Group (Jisey khoon chahiye)</label>
+                <select name="blood_group" required>
+                    <option value="" disabled selected>-- Select Group --</option>
+                    {% for group in ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] %}
+                        <option value="{{ group }}" {% if selected_group == group %}selected{% endif %}>{{ group }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-check-pro">
+                <i class="fas fa-search"></i> Check Compatibility
+            </button>
+        </form>
+    </div>
 </section>
 
-{% if selected %}
-<section class="card">
-    <h3>Compatible Donors for {{ selected }}</h3>
+{% if selected_group %}
+<section class="results-wrapper">
+    <div class="results-header" style="text-align: center; margin-top: 30px;">
+        <h3>Compatible Donors for <span class="badge">{{ selected_group }}</span></h3>
+    </div>
 
     {% if donors %}
-        {% for d in donors %}
+        <div class="donor-grid">
+            {% for d in donors %}
             <div class="donor-card">
-                <p><b>Name:</b> {{ d.name }}</p>
-                <p><b>Blood Group:</b> {{ d.blood_group }}</p>
-                <p><b>City:</b> {{ d.city }}</p>
-                <p><b>Contact:</b> {{ d.contact }}</p>
+                <div class="blood-badge">{{ d.blood_group }}</div>
+                <h4>{{ d.name }}</h4>
+                <p><i class="fas fa-map-marker-alt"></i> {{ d.city }}</p>
+                <div class="donor-actions" style="margin-top: 15px;">
+                    <a href="tel:{{ d.contact }}" class="call-btn"><i class="fas fa-phone"></i> Call</a>
+                    <a href="https://wa.me/91{{ d.contact }}" class="wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% else %}
-        <p>No compatible donors found 😔</p>
+        <div class="empty-state-card">
+            <i class="fas fa-search-location"></i>
+            <h4>No Donors Found for {{ selected_group }}</h4>
+            <p>Try checking for a different blood group or search all donors.</p>
+            <a href="{{ url_for('donors_list') }}" class="btn-small">View All Donors</a>
+        </div>
     {% endif %}
 </section>
 {% endif %}
+
+<section class="info-section">
+    <div class="info-card">
+        <h3><i class="fas fa-info-circle"></i> Quick Compatibility Guide</h3>
+        <p>Ye chart aapko samajhne mein madad karega ki kaunsa blood group kiske liye compatible hai.</p>
+        
+        <div class="table-container">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Blood Type</th>
+                        <th>Can Receive From (Donors)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><b>A+</b></td><td>A+, A-, O+, O-</td></tr>
+                    <tr><td><b>A-</b></td><td>A-, O-</td></tr>
+                    <tr><td><b>B+</b></td><td>B+, B-, O+, O-</td></tr>
+                    <tr><td><b>B-</b></td><td>B-, O-</td></tr>
+                    <tr><td><b>AB+</b></td><td>A+, A-, B+, B- , AB+, AB-, O+, O- (Universal)</td></tr>
+                    <tr><td><b>AB-</b></td><td>A-, B-, AB-, O-</td></tr>
+                    <tr><td><b>O+</b></td><td>O+, O-</td></tr>
+                    <tr><td><b>O-</b></td><td>O- (Universal Donor)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
